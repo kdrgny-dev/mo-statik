@@ -1,0 +1,251 @@
+.section {
+    
+}
+//welcome screeen
+.welcome {
+    background: url('/assets/images/welcome-bg.png') no-repeat center center;
+    background-size: cover;
+    color:$white;
+    @include media-below(sm) {
+        padding-top: 20px;
+    }
+    &-title {
+        font-size: 40px;
+        font-family: $barlowC;
+        font-weight: 700;
+        margin-bottom: 30px;
+        @include media-below(sm) {
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+    }
+    &-text {
+        font-size: 22px;
+        line-height: 26px;
+        strong {
+            font-weight: 700;
+        }
+        @include media-below(sm) {
+            font-size: 16px;
+        }
+    }
+    &-info {
+        padding: 5px;
+        background-color: #FF4E00;
+        font-family: $barlowC;
+        font-size: 25px;
+        font-weight: 700;
+        @include prefix(border-radius, 3px);
+        display: inline-block;
+        margin-top: 10px;
+        @include media-below(sm) {
+            font-size: 16px;
+        }
+    }
+    &-modal-text {
+        margin-top: 50px;
+        font-size: 22px;
+        font-family: $barlowC;
+        font-weight: 600;
+        @include media-below(sm) {
+            font-size: 16px;
+            margin-top: 15px;
+        }
+        a {
+            color:$white;
+            text-decoration: underline;
+        }
+    }
+    &-btn-goon {
+        background-color: $darkBlue;
+        font-size: 23px;
+        color: $white;
+        font-weight: 700;
+        font-family: $barlow;
+        @include prefix(box-shadow, 6px 6px 15px rgba(24, 104, 147, 0.24));
+        margin-top: 50px;
+        @include media-below(sm) {
+            font-size: 16px;
+            margin-top: 15px;
+        }
+        &:hover {
+            color:$darkBlue;
+            border:1px solid $darkBlue;
+            background-color: $white;
+        }
+    }
+    &-inner {
+        display: flex;
+        @include media-below(lg) {
+            flex-direction: column;
+            align-items: center;
+        }
+    }
+}
+
+//QUESTIONS
+.q {
+    position: relative;
+    background: linear-gradient(#13c1f5 0%, #13a6f5 100%);
+    &:after {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        content:'';
+        background: linear-gradient(#14a7f6 0%, #0e44aa 100%);
+        opacity: 0.30;
+        top:0;
+        left: 0;
+        z-index: -1;
+    }
+    &-inner {
+        display: flex;
+        align-items: center;
+        @include media-below(lg) {
+            flex-direction: column;
+            align-items: center;
+        }
+    }
+    &-item {
+        min-width: 475px;
+        max-width: 475px;
+        background-color: $white;
+        @include prefix(border-radius, 8px);
+        @include prefix(box-shadow, 0px 8px 6px rgba(0, 0, 0, 0.16));
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: relative;
+        padding: 35px 0;
+        @include media-below(md) {
+            min-width: 100%;
+            max-width: 100%;
+        }
+        &--left {
+            @include media-below(md) {
+                margin-bottom: 50px;
+            }
+        }
+        &--right {
+            @include media-below(md) {
+                margin-bottom: 150px;
+            }
+        }
+        &-order {
+            width: 56px;
+            height: 56px;
+            @include prefix(border-radius, 100px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: $darkBlue;
+            color:$white;
+            font-size: 30px;
+            font-weight: 700;
+            position: absolute;
+            top: -20px;
+            left: -20px;
+            &--right {
+                left:inherit;
+                right:-20px;
+            }
+        }
+        &-title {
+            font-size: 26px;
+            font-weight: 700;
+            line-height: 30px;
+            padding-bottom: 35px;
+            margin-bottom: 35px;
+            border-bottom:1px solid #ACACAC;
+            padding-left: 30px;
+            padding-right: 30px;
+            text-align: center;
+        }
+        &-answer {
+            select {
+                background:url('/assets/images/select-bg@2x.png') no-repeat center right;
+                font-size: 18px;
+                font-weight: 700;
+                line-height: 26px;
+                padding: 15px 20px;
+                color: $white;
+                text-align: center;
+                background-color: $lightBlue;
+                border:0;
+                border-right:15px solid $lightBlue;
+                @include prefix(border-radius, 8px);
+                -webkit-appearance: none;
+                @include prefix(box-shadow, (6px 6px 15px rgba(24, 104, 147, 0.24)));
+                z-index: 2;
+                &:focus {
+                    outline: none;
+                }
+            }
+            &-items {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                &-btn {
+                    background-color: $lightBlue;
+                    font-size: 18px;
+                    font-weight: 700;
+                    color:$white;
+                    @include prefix(border-radius, 7px);
+                    @include prefix(box-shadow, 6px 6px 15px rgba(24, 104, 147, 0.24));
+                    margin-right: 8px;
+                    z-index: 2;
+                    border:0;
+                    &:last-child {
+                        margin-right: 0;
+                    }
+                    &:hover {
+                        background-image: linear-gradient(90deg, #02a1f9 0%, #29f19c 100%);
+                        color:$white;
+                    }
+                }
+            }
+        }
+    }
+    
+}
+
+//aydinlatmaMetni Modal
+#aydinlatmaMetni {
+    h5 {
+        font-size: 26px;
+        font-weight: 700;
+    }
+    p {
+        font-size: 16px;
+        line-height: 22px;
+        margin: 5px 0;
+        strong, a {
+            font-weight: 700;
+            font-size: 18px;
+            line-height: 24px;
+            color:$darkBlue;
+        }
+        a {
+            font-size: 16px;
+        }
+    }
+    ol, ul {
+        padding-left:15px;
+        li {
+            margin: 5px 0;
+            font-size: 16px;
+            line-height: 22px;
+            display: list-item;
+        }
+    }
+    ul {
+        li {
+            list-style:disc inside;
+        }
+    }
+    ol {
+        li {
+            list-style:decimal inside;
+        }
+    }
+}

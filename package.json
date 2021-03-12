@@ -1,0 +1,27 @@
+{
+  "name": "mo",
+  "private": false,
+  "version": "0.0.1",
+  "repository": {
+    "url": ""
+  },
+  "devDependencies": {
+    "browser-sync": "^2.26.3",
+    "browser-sync-client": "^2.26.2",
+    "gulp": "^4.0.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-imagemin": "^5.0.3",
+    "gulp-plumber": "^1.2.1",
+    "gulp-rename": "^1.4.0",
+    "gulp-sass": "^4.0.2",
+    "gulp-uglify": "^3.0.1",
+    "gulp-watch": "^5.0.1",
+    "sass": "^1.15.1"
+  },
+  "dependencies": {
+    "animate.css": "^4.1.1",
+    "bootstrap": "^5.0.0-beta2",
+    "fullpage.js": "^3.1.0",
+    "gulp-sourcemaps": "^2.6.5"
+  }
+}

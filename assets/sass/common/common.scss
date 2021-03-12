@@ -1,0 +1,27 @@
+//google fonts
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;700&family=Barlow:wght@400;500;700&display=swap');
+
+body {
+    font-size: 14px;
+    font-family: $barlow;
+    color:$darkBlue;
+    background-color: $white;
+}
+
+//common img styles
+img {
+    max-width: 100%;
+    display: block;
+}
+.ml-100 {
+    margin-left: -100px;
+}
+.ml100 {
+    margin-left: 100px;
+}
+.mr-200 {
+    margin-right: -200px;
+}
+.mr200 {
+    margin-right: 200px;
+}
