@@ -11,9 +11,10 @@ window.onload = function () {
     var myFullpage = new fullpage('#fullpage', {
         fixedElements: '.mo-header',
         controlArrows: false,
-        normalScrollElements: '.modal-body, .result-inner',
+        normalScrollElements: '.modal-body',
         keyboardScrolling: false,
         lockAnchors: true,
+        scrollOverflow: true,
         licenseKey: 'EDC04CA5-2F844012-B43EC46E-3FD15BCB',
         onLeave: function (origin) {
             var loadedSection = this,
@@ -107,7 +108,7 @@ window.onload = function () {
 
     
 
-    //fullpage_api.moveTo(10);
+    fullpage_api.moveTo(10);
     removeCopiedModal('copiedModal');
     //removeTermOfUseModal();
 
