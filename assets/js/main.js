@@ -108,7 +108,7 @@ window.onload = function () {
 
     
 
-    fullpage_api.moveTo(10);
+    //fullpage_api.moveTo(10);
     removeCopiedModal('copiedModal');
     //removeTermOfUseModal();
 
