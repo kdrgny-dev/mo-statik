@@ -235,6 +235,11 @@
                             background-image: linear-gradient(90deg, #E00135 0%, #FF5E39 100%);
                         }
                     }
+                    &--yellow {
+                        &:hover {
+                            background-image: linear-gradient(90deg, #F0B209 0%, #FF5E39 100%);
+                        }
+                    }
                 }
             }
         }
@@ -242,8 +247,136 @@
     
 }
 
+//RESULT
+.result {
+    background: linear-gradient(#13c1f5 0%, #13a6f5 100%);
+    text-align: center;
+    color:$white;
+    &-inner {
+        @include media-above(lg) {
+            max-height: 650px;
+            overflow: auto;
+            margin-top: 100px;
+        }
+        @include media-below(md) {
+            overflow: auto;
+            max-height: 500px;
+            padding-top: 50px;
+        }
+    }
+    &-title {
+        font-size: 36px;
+        font-weight: 700;
+        line-height: 42px;
+        margin-bottom: 10px;
+        @include media-below(sm) {
+            font-size: 22px;
+            line-height: inherit;
+        }
+    }
+    &-text {
+        font-size: 24px;
+        line-height: 30px;
+        font-weight: 600;
+        margin-bottom: 5px;
+        @include media-below(sm) {
+            font-size: 20px;
+            line-height: 26px;
+        }
+    }
+    &-option {
+        padding: 10px;
+        border: 2px dotted #b7e9ff;
+        @include prefix(border-radius, 10px);
+        &-item {
+            padding:15px 0;
+            border-bottom:1px dotted #b7e9ff;
+            @include media-below(sm) {
+                padding:5px 0;
+            }
+            &:last-child {
+                border-bottom:0;
+            }
+            &-text {
+                font-size: 16px;
+                line-height: 22px;
+                margin-bottom: 15px;
+                @include media-below(sm) {
+                    margin-bottom: 5px;
+                }
+                a {
+                    color: $darkBlue;
+                }
+            }
+        }
+    }
+    &-discount {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+        cursor: pointer;
+        &-code {
+            background: $white;
+            color: $black;
+            @include prefix(border-radius, 50px 0 0 50px);
+            padding:10px 20px;
+        }
+        &-copy-text {
+            background-color: #ff6000;
+            color: $white;
+            @include prefix(border-radius, 0 50px 50px 0);
+            padding:10px 20px;
+        }
+    }
+    &-get-discount-btn {
+        @include prefix(border-radius, 30px);
+        background-color: #ff6000;
+        color:$white;
+        font-size: 24px;
+        font-weight: 600;
+        min-width: 130px;
+        margin:15px 0;
+        @include media-below(sm) {
+            font-size: 16px;
+            margin:10px;
+        }
+        &:hover {
+            color:$white;
+            border:1px solid $white;
+        }
+    }
+    &-term-of-use-btn {
+        display: block;
+        font-size: 18px;
+        color:$white;
+        @include media-below(sm) {
+            font-size: 15px;
+        }
+    }
+    &-get-service-discount-btn, &-kde-btn {
+        color: $lightBlue;
+        background: $white;
+        @include prefix(border-radius, 30px);
+        font-size: 22px;
+        border:0;
+        @include media-below(sm) {
+            font-size: 16px;
+        }
+        &:hover {
+            background: linear-gradient(90deg, #02a1f9 0%, #29f19c 100%);
+            color:$white;
+        }
+    }
+    &-kde {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
 //aydinlatmaMetni Modal
-#aydinlatmaMetni {
+#aydinlatmaMetni, #termOfUse {
     h5 {
         font-size: 26px;
         font-weight: 700;
@@ -280,5 +413,16 @@
         li {
             list-style:decimal inside;
         }
+    }
+}
+
+//copiedCode Modal
+#copiedCode {
+    strong {
+        @include prefix(border-radius, 8px);
+        padding:5px;
+        background-color: #ff6000;
+        color:$white;
+        font-weight: 600;
     }
 }

@@ -1,14 +1,17 @@
 var nextQuestionBtn = document.getElementsByClassName('js-goto-next-question'),
     citySelect = document.getElementById('city-select'),
     machineAgeSelect = document.getElementById('machine-age-select'),
-    howOftenSelect = document.getElementById('how-often-select');
+    howOftenSelect = document.getElementById('how-often-select'),
+    copyDiscountCodeBtn = document.querySelector('.js-result-discount'),
+    copyDiscountCodeText = document.querySelector('.js-result-discount-code'),
+    termOfUseBtn = document.querySelector('.js-result-term-of-use-btn');
 
 window.onload = function () {
     // fullpage.js init
     var myFullpage = new fullpage('#fullpage', {
         fixedElements: '.mo-header',
         controlArrows: false,
-        normalScrollElements: '.modal-body',
+        normalScrollElements: '.modal-body, .result-inner',
         keyboardScrolling: false,
         lockAnchors: true,
         licenseKey: 'EDC04CA5-2F844012-B43EC46E-3FD15BCB',
@@ -69,20 +72,44 @@ window.onload = function () {
                     break;
             }
             
-        }
+        },
     });
     //disabling scrolling
     fullpage_api.setAllowScrolling(false);
+
+    
+
     //nextQuestion
     Array.from(nextQuestionBtn).forEach(function (nextQuestionBtn) {
         nextQuestionBtn.addEventListener('click', nextQuestion);
     });
     //select city then nextQuestion
     citySelect.addEventListener('change', nextQuestion);
+    
     //select machineAge then nextQuestion
     machineAgeSelect.addEventListener('change', nextQuestion);
+    
     //select howOften then nextQuestion
     howOftenSelect.addEventListener('change', nextQuestion);
+
+    //copy discount code
+    copyDiscountCodeBtn.onclick = function () {
+        document.execCommand("copy");
+        copiedModal('copiedCode');
+    }
+    copyDiscountCodeBtn.addEventListener("copy", function (event) {
+        event.preventDefault();
+        if (event.clipboardData) {
+            event.clipboardData.setData("text/plain", copyDiscountCodeText.textContent);
+            console.log(event.clipboardData.getData("text"))
+        }
+    });
+
+    
+
+    //fullpage_api.moveTo(10);
+    removeCopiedModal('copiedModal');
+    //removeTermOfUseModal();
 
 }
 
@@ -90,9 +117,50 @@ window.onload = function () {
 
 //nextQuestion Fnc.
 function nextQuestion() {
-    console.log('butona tıklandı', nextQuestionBtn)
     fullpage_api.moveSectionDown();
-    
+}
+
+//add dynamic copiedModal
+function copiedModal(id) {
+    var el = document.getElementById(id);
+    var body = document.querySelector('body');
+    var modal = document.createElement('div');
+    modal.innerHTML = `
+        <div class="modal fade" id="copiedCode" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered ">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title fs-2" id="exampleModalLabel">İNDİRİM KODU KOPYALANDI</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <h1 class="fs-3">KOPYALANAN İNDİRİM KODU : <strong>${copyDiscountCodeText.textContent}</strong></h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `
+    body.appendChild(modal);
+    var modal = new bootstrap.Modal(document.getElementById('copiedCode'));
+    modal.toggle();
+}
+
+//remove copiedModal
+function removeCopiedModal() {
+    var modal = new bootstrap.Modal(document.getElementById('copiedCode'));
+    modal.addEventListener('hidden.bs.modal', function (event) {
+        modal.dispose()
+    })
+}
+
+function hideAllSection() {
+    if (origin.index = 9) {
+        var sections = document.getElementsByClassName('section');
+        Array.from(sections).forEach(function (section) {
+            section.classList.add = 'd-none';
+            console.log('section : ', section);
+        })
+    }
 }
 
 
