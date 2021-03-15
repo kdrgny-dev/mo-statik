@@ -13,15 +13,35 @@ img {
     max-width: 100%;
     display: block;
 }
-.ml-100 {
-    margin-left: -100px;
+
+//loading
+.loading {
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color:$white;
+    z-index: 100;
+    &-text {
+        font-size: 30px;
+    }
 }
-.ml100 {
-    margin-left: 100px;
+svg {
+  position: absolute;
 }
-.mr-200 {
-    margin-right: -200px;
-}
-.mr200 {
-    margin-right: 200px;
+
+circle:nth-of-type(1) { fill: #99D6F7; }
+circle:nth-of-type(2) { fill: #14A7F6; }
+circle:nth-of-type(3) { fill: #0D6DAC; }
+circle:nth-of-type(4) { fill: #0E44AA; }
+
+#clackers {
+/*   border: 1px solid white; */
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
 }

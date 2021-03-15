@@ -1,5 +1,5 @@
-.section {
-    
+#fullpage {
+    display: none;
 }
 //welcome screeen
 .welcome {
@@ -254,11 +254,14 @@
     color:$white;
     &-inner {
         margin: 100px 0 50px 0;
+        @include media-above(lg) {
+            padding-bottom: 100px;
+        }
     }
     &-title {
-        font-size: 36px;
+        font-size: 30px;
         font-weight: 700;
-        line-height: 42px;
+        line-height: 36px;
         margin-bottom: 10px;
         @include media-below(sm) {
             font-size: 22px;
@@ -266,10 +269,14 @@
         }
     }
     &-text {
-        font-size: 24px;
-        line-height: 30px;
+        font-size: 22px;
         font-weight: 600;
         margin-bottom: 5px;
+        strong {
+            font-weight: 700;
+            color:$darkBlue;
+            font-size: 24px;
+        }
         @include media-below(sm) {
             font-size: 20px;
             line-height: 26px;
@@ -278,6 +285,7 @@
     &-option {
         padding: 10px;
         border: 2px dotted #b7e9ff;
+        margin-top: 10px;
         @include prefix(border-radius, 10px);
         &-item {
             padding:15px 0;
@@ -291,7 +299,7 @@
             &-text {
                 font-size: 16px;
                 line-height: 22px;
-                margin-bottom: 15px;
+                margin-bottom: 10px;
                 @include media-below(sm) {
                     margin-bottom: 5px;
                 }
