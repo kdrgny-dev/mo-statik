@@ -15,6 +15,8 @@ window.onload = function () {
         keyboardScrolling: false,
         lockAnchors: true,
         scrollOverflow: true,
+        scrollOverflowReset:true,
+        paddingTop: '100px',
         licenseKey: 'EDC04CA5-2F844012-B43EC46E-3FD15BCB',
         onLeave: function (origin) {
             var loadedSection = this,
@@ -108,7 +110,7 @@ window.onload = function () {
 
     
 
-    //fullpage_api.moveTo(10);
+    
     removeCopiedModal('copiedModal');
     //removeTermOfUseModal();
 
@@ -182,6 +184,7 @@ function setVisible(selector, visible) {
 onReady(function () {
     setVisible('#fullpage', true);
     setVisible('.loading', false);
+    //fullpage_api.moveTo(10);
 });
 
 
