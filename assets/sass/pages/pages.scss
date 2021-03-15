@@ -112,6 +112,11 @@
             flex-direction: column;
             align-items: center;
         }
+        img {
+            @include media-below(lg) {
+                order:1;
+            }
+        }
     }
     &-item {
         min-width: 475px;
@@ -128,21 +133,8 @@
             min-width: 100%;
             max-width: 100%;
         }
-        &--left {
-            @include media-below(md) {
-                margin-bottom: 50px;
-            }
-            @include media-below(sm) {
-                margin-bottom: 0;
-            }
-        }
-        &--right {
-            @include media-below(lg) {
-                margin-bottom: 100px;
-            }
-            @include media-below(xs) {
-                margin-bottom: 50px;
-            }
+        @include media-below(lg) {
+            order:2;
         }
         &-order {
             width: 56px;
@@ -242,6 +234,12 @@
                     }
                 }
             }
+        }
+    }
+
+    &-row {
+        @include media-below(sm) {
+
         }
     }
     
