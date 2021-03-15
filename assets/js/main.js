@@ -11,10 +11,11 @@ window.onload = function () {
     var myFullpage = new fullpage('#fullpage', {
         fixedElements: '.mo-header',
         controlArrows: false,
-        normalScrollElements: '.modal-body',
+        normalScrollElements: '.modal-body .result-inner',
         keyboardScrolling: false,
         scrollOverflow: true,
         licenseKey: 'EDC04CA5-2F844012-B43EC46E-3FD15BCB',
+        
         onLeave: function (origin) {
             var loadedSection = this,
                 q1 = document.querySelector('.q1 .q-item'),
@@ -71,7 +72,7 @@ window.onload = function () {
                 default:
                     break;
             }
-            
+            fullpage_api.reBuild();
         },
     });
     //disabling scrolling
@@ -95,7 +96,7 @@ window.onload = function () {
     //copy discount code
     copyDiscountCodeBtn.onclick = function () {
         document.execCommand("copy");
-        copiedModal('copiedCode');
+        copiedModal();
     }
     copyDiscountCodeBtn.addEventListener("copy", function (event) {
         event.preventDefault();
@@ -108,8 +109,7 @@ window.onload = function () {
     
 
     
-    removeCopiedModal('copiedModal');
-    //removeTermOfUseModal();
+    removeCopiedModal();
 
     
 
@@ -136,7 +136,7 @@ function copiedModal(id) {
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <h1 class="fs-3">KOPYALANAN İNDİRİM KODU : <strong>${copyDiscountCodeText.textContent}</strong></h1>
+                        <h1 class="fs-5">KOPYALANAN İNDİRİM KODU : <strong>${copyDiscountCodeText.textContent}</strong></h1>
                     </div>
                 </div>
             </div>
@@ -155,15 +155,6 @@ function removeCopiedModal() {
     })
 }
 
-function hideAllSection() {
-    if (origin.index = 9) {
-        var sections = document.getElementsByClassName('section');
-        Array.from(sections).forEach(function (section) {
-            section.classList.add = 'd-none';
-            console.log('section : ', section);
-        })
-    }
-}
 
 function onReady(callback) {
     var intervalId = window.setInterval(function () {

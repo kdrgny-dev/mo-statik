@@ -108,6 +108,7 @@
         @include media-below(lg) {
             flex-direction: column;
             align-items: center;
+            padding-top: 100px;
         }
         img {
             @include media-below(lg) {
@@ -263,14 +264,18 @@
     text-align: center;
     color:$white;
     @include media-above(lg) {
-        padding-top: 50px;
+        padding-top: 80px;
     }
-    @include media-below(lg) {
-        padding-top: 30px;
+    @include media-below(md) {
+        padding-top: 80px;
     }
-
+    @include media-below(xs) {
+        padding-top: 100px;
+    }
     &-inner {
-    
+        @include media-below(xs) {
+            margin-bottom: 50px;
+        }
     }
     &-title {
         font-size: 30px;
@@ -465,5 +470,9 @@
         background-color: #ff6000;
         color:$white;
         font-weight: 600;
+        @include media-below(sm) {
+            display: inline-block;
+            margin-top: 10px;
+        }
     }
 }
