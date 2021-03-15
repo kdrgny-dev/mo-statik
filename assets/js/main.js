@@ -13,10 +13,7 @@ window.onload = function () {
         controlArrows: false,
         normalScrollElements: '.modal-body',
         keyboardScrolling: false,
-        lockAnchors: true,
         scrollOverflow: true,
-        scrollOverflowReset:true,
-        paddingTop: '100px',
         licenseKey: 'EDC04CA5-2F844012-B43EC46E-3FD15BCB',
         onLeave: function (origin) {
             var loadedSection = this,

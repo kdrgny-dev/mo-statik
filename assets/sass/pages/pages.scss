@@ -6,6 +6,9 @@
     background: url('/assets/images/welcome-bg.png') no-repeat center center;
     background-size: cover;
     color:$white;
+    @include media-below(lg) {
+        padding-top: 100px;
+    }
     &-title {
         font-size: 40px;
         font-family: $barlowC;
@@ -259,13 +262,23 @@
     background: linear-gradient(#13c1f5 0%, #13a6f5 100%);
     text-align: center;
     color:$white;
+    @include media-above(lg) {
+        padding-top: 50px;
+    }
+    @include media-below(lg) {
+        padding-top: 30px;
+    }
+
+    &-inner {
+    
+    }
     &-title {
         font-size: 30px;
         font-weight: 700;
         line-height: 36px;
         margin-bottom: 10px;
         @include media-below(sm) {
-            font-size: 22px;
+            font-size: 18px;
             line-height: inherit;
         }
     }
@@ -277,6 +290,9 @@
             font-weight: 700;
             color:$darkBlue;
             font-size: 24px;
+            @include media-below(sm) {
+            font-size: 16px;
+        }
         }
         @include media-below(sm) {
             font-size: 14px;
@@ -379,6 +395,9 @@
         border:0;
         @include media-below(sm) {
             font-size: 16px;
+        }
+        @include media-below(xs) {
+            font-size: 14px;
         }
         &:hover {
             background: linear-gradient(90deg, #02a1f9 0%, #29f19c 100%);
