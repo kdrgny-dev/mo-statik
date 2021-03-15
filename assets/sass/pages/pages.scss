@@ -7,10 +7,7 @@
     background-size: cover;
     color:$white;
     @include media-below(sm) {
-        padding-top: 20px;
-    }
-    @include media-below(xs) {
-        padding-top: 50px;
+        padding-top: 100px;
     }
     &-title {
         font-size: 40px;
@@ -150,9 +147,19 @@
             position: absolute;
             top: -20px;
             left: -20px;
+            @include media-below(sm) {
+                width: 46px;
+                height: 46px;
+                top: -10px;
+                left: -10px;
+                font-size: 25px;
+            }
             &--right {
                 left:inherit;
                 right:-20px;
+                @include media-below(sm) {
+                    right:-10px;
+                }
             }
         }
         &-title {
