@@ -6,9 +6,7 @@
     background: url('/assets/images/welcome-bg.png') no-repeat center center;
     background-size: cover;
     color:$white;
-    @include media-below(lg) {
-        padding-top: 100px;
-    }
+    padding-top: 100px;
     &-title {
         font-size: 40px;
         font-family: $barlowC;
