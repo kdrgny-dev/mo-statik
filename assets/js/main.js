@@ -97,6 +97,7 @@ window.onload = function () {
     //start test btn click
     startTestBtn.addEventListener('click', function (e) {
         e.preventDefault();
+
         checkAddBlocker(function (result) {
             if (result) {
                 console.log('Welcome Screen, addblocker açık');
@@ -489,6 +490,8 @@ function pageView() {
 
 //sendQuestion data to GTM
 function sendQuestionDataToGTM(question, answer, cb) {
+    
+    window.history.pushState({},"", '?question='+(parseInt(question)+1));
     checkAddBlocker(function (result) {
         if (result) {
             console.log('addblocker açık', 'question : ' + question, 'answer : ' + answer);
