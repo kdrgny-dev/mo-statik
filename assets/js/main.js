@@ -2,11 +2,25 @@ var nextQuestionBtn = document.getElementsByClassName('js-goto-next-question'),
     citySelect = document.getElementById('city-select'),
     machineAgeSelect = document.getElementById('machine-age-select'),
     howOftenSelect = document.getElementById('how-often-select'),
+    machineAgeTxt = document.getElementById('machineAgeTxt'),
+    machineRealAgeTxt = document.getElementById('machineRealAgeTxt'),
     copyDiscountCodeBtn = document.querySelector('.js-result-discount'),
     copyDiscountCodeText = document.querySelector('.js-result-discount-code'),
-    termOfUseBtn = document.querySelector('.js-result-term-of-use-btn');
+    termOfUseBtn = document.querySelector('.js-result-term-of-use-btn'),
+    modal,
+    questions_answers= [],
+    limit = { YOUNG: 8, MIDDLE: 13, OLD: 14  },
+    category = { YOUNG: "young", MIDDLE: "middle", OLD: "old" },
+    headlines = { YOUNG: 'BRAVOOO', MIDDLE: 'TAM ZAMANINDA YETİŞTİK', OLD: "YANİ NASIL SÖYLESEM BİLEMİYORUM" };
+
+window.addEventListener('DOMContentLoaded', (event) => {
+    console.log('DOMContentLoaded');
+    setVisible('#fullpage', false);
+    setVisible('.loading', false);
+});
 
 window.onload = function () {
+    console.log('onload');
     // fullpage.js init
     var myFullpage = new fullpage('#fullpage', {
         fixedElements: '.mo-header',
@@ -78,44 +92,95 @@ window.onload = function () {
     //disabling scrolling
     fullpage_api.setAllowScrolling(false);
 
-    
 
-    //nextQuestion
+    //nextQuestions
     Array.from(nextQuestionBtn).forEach(function (nextQuestionBtn) {
-        nextQuestionBtn.addEventListener('click', nextQuestion);
+        nextQuestionBtn.addEventListener('click', function(){
+            var question = this.getAttribute('data-question');
+            var the_answer = this.getAttribute('data-value');
+            switch (question){
+                case '4':
+                    questions_answers.push({
+                        id: "q4",
+                        value: the_answer
+                    });
+                break;
+                case '5':
+                    questions_answers.push({
+                        id: "q5",
+                        value: the_answer
+                    });
+                break;
+                case '6':
+                    questions_answers.push({
+                        id: "q6",
+                        value: the_answer
+                    });
+                break;
+                case '7':
+                    questions_answers.push({
+                        id: "q7",
+                        value: the_answer
+                    });
+                break;
+                case '8':
+                    questions_answers.push({
+                        id: "q8",
+                        value: the_answer
+                    });
+                    var calc = new Calculator(questions_answers);
+                    var score = calc.calculate();
+                    var result_obj = getResultPageContent(score);
+                    machineRealAgeTxt.innerText = result_obj.metabolicAge; 
+                    machineAgeTxt.innerText = result_obj.realAge
+                break;
+            }
+            
+            nextQuestion();
+        });
     });
     //select city then nextQuestion
-    citySelect.addEventListener('change', nextQuestion);
+    citySelect.addEventListener('change',function(){
+        questions_answers.push({
+            id:"q1",
+            value:this.value
+        });
+        nextQuestion();
+    } );
     
     //select machineAge then nextQuestion
-    machineAgeSelect.addEventListener('change', nextQuestion);
+    machineAgeSelect.addEventListener('change', function(){
+        questions_answers.push({
+            id:"q2",
+            value:this.value
+        });
+        nextQuestion();
+    } );
     
     //select howOften then nextQuestion
-    howOftenSelect.addEventListener('change', nextQuestion);
+    howOftenSelect.addEventListener('change', function(){
+        questions_answers.push({
+            id:"q3",
+            value:this.value
+        });
+        nextQuestion();
+    });
+
+    
+
+
 
     //copy discount code
     copyDiscountCodeBtn.onclick = function () {
         document.execCommand("copy");
+        copyToClipboard('CALGONFIRSAT');
         copiedModal();
     }
-    copyDiscountCodeBtn.addEventListener("copy", function (event) {
-        event.preventDefault();
-        if (event.clipboardData) {
-            event.clipboardData.setData("text/plain", copyDiscountCodeText.textContent);
-            console.log(event.clipboardData.getData("text"))
-        }
-    });
 
-    
-
-    
-    removeCopiedModal();
-
-    
-
+    hideModal();
+    setVisible('#fullpage', true);
+    setVisible('.loading', false);
 }
-
-
 
 //nextQuestion Fnc.
 function nextQuestion() {
@@ -126,8 +191,8 @@ function nextQuestion() {
 function copiedModal(id) {
     var el = document.getElementById(id);
     var body = document.querySelector('body');
-    var modal = document.createElement('div');
-    modal.innerHTML = `
+    var modal_div = document.createElement('div');
+    modal_div.innerHTML = `
         <div class="modal fade" id="copiedCode" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered ">
                 <div class="modal-content">
@@ -142,39 +207,234 @@ function copiedModal(id) {
             </div>
         </div>
     `
-    body.appendChild(modal);
-    var modal = new bootstrap.Modal(document.getElementById('copiedCode'));
-    modal.toggle();
+    body.appendChild(modal_div);
+    modal = new bootstrap.Modal(document.getElementById('copiedCode'));
+    modal.show();
 }
 
 //remove copiedModal
-function removeCopiedModal() {
-    var modal = new bootstrap.Modal(document.getElementById('copiedCode'));
-    modal.addEventListener('hidden.bs.modal', function (event) {
-        modal.dispose()
-    })
+function hideModal() {
+    modal && modal.hide();
 }
 
-
-function onReady(callback) {
-    var intervalId = window.setInterval(function () {
-        if (document.getElementsByTagName('body')[0] !== undefined) {
-            window.clearInterval(intervalId);
-            callback.call(this);
-        }
-    }, 1000);
+function copyToClipboard(str) {
+    var el = document.createElement('textarea');
+    el.value = str;
+    el.setAttribute('readonly', '');
+    el.style.position = 'absolute';
+    el.style.left = '-9999px';
+    document.body.appendChild(el);
+    el.select();
+    document.execCommand('copy');
+    document.body.removeChild(el);
 }
 
 function setVisible(selector, visible) {
     document.querySelector(selector).style.display = visible ? 'block' : 'none';
 }
 
-onReady(function () {
-    setVisible('#fullpage', true);
-    setVisible('.loading', false);
-    //fullpage_api.moveTo(10);
-});
+function Calculator(answers) {
+    this.answers = answers;
+    this.score = 0;
+    this.ppm = 0;
+};
 
+Calculator.prototype.getAnswer = function(answerId) {
+    var answer = '';
+    this.answers.forEach(function(element) {
+        if (element.id == answerId) { 
+            answer = element; 
+            return;
+        }
+    });
+    return answer;
+}
 
+Calculator.prototype.calculate = function() {
+    var self = this;
+
+    this.answers.forEach(function(userAnswer, index) {
+        switch(userAnswer.id) {
+        case 'q1':
+            var ppmScore = self.calculatePpmScore(userAnswer.value);
+            self.score += (ppmScore * 0.12);
+            break;
+
+        case 'q3':
+            var point = 0;
+            if (userAnswer.value <= 3) {
+                point = 1
+            }
+            else if(userAnswer.value > 3 && userAnswer.value <= 5) {
+                point = 2
+            }
+	        else{
+                point = 3
+            }
+            self.score += point
+            break;
+
+        case 'q4':
+            if(userAnswer.value == 2) { 
+                self.score += 3; 
+            }
+            else if(userAnswer.value == 3) {
+                 self.score += 2; 
+            }
+	        else{
+                self.score +=1;
+            }
+            break;
+
+	    case 'q5':
+            if(userAnswer.value == 2) { 
+                self.score += 10; 
+            }
+            break;
+
+        case 'q6':
+            var point = 0;
+            if(userAnswer.value == 2){
+                self.score += 2;
+            }
+            break;
+
+        case 'q7':
+            if(userAnswer.value == 1) {
+                 self.score += 6; 
+            }
+            break;
+
+        case 'q8':
+            var point = 0;
+            if(userAnswer.value == 2) {
+                 point = 6; 
+            }
+            else if(userAnswer.value == 3) { 
+                point = 9; 
+            }
+            self.score += point
+            break;
+
+        default:
+            break;
+        }
+    });
+
+    return this.score;
+};
+
+Calculator.prototype.calculatePpmScore = function(cityOrRegion) {
+    this.ppm = this.calculatePpm(cityOrRegion);
+    
+    if (this.ppm <= 100) {
+        return 1;
+    } else if( this.ppm >= 101 && this.ppm <= 150 ) {
+        return 2;
+    } else if( this.ppm >= 151 && this.ppm <= 250 ) {
+        return 3;
+    } else {
+        return 3;
+    }
+}
+
+Calculator.prototype.calculatePpm = function(cityOrRegion) {
+
+    var score = 0;
+
+    var region = {
+        MARMARA: { key: "marmara", average: 173 },
+        EGE: { key: "ege", average: 231 },
+        AKDENIZ: { key: "akdeniz", average: 247 },
+        KARADENIZ: { key: "karadeniz", average: 212 },
+        IC_ANADOLU: { key: "ic-anadolu", average: 212 },
+        DOGU_GUNEYDOGU: { key: "dogu-guneydogu", average: 180 },
+    };
+
+    var ppmData = [
+        { id: region.MARMARA.key , value: region.MARMARA.average },
+        { id: region.EGE.key , value: region.EGE.average },
+        { id: region.AKDENIZ.key , value: region.AKDENIZ.average },
+        { id: region.KARADENIZ.key , value: region.KARADENIZ.average },
+        { id: region.IC_ANADOLU.key , value: region.IC_ANADOLU.average },
+        { id: region.DOGU_GUNEYDOGU.key , value: region.DOGU_GUNEYDOGU.average },
+        { id: 34 , value: 150 },
+        { id: 41 , value: 107 },
+        { id: 59 , value: 166 },
+        { id: 54 , value: 125 },
+        { id: 22 , value: 268 },
+        { id: 10 , value: 171 },
+        { id: 16 , value: 222 },
+        { id: 20 , value: 286 },
+        { id: 35 , value: 243 },
+        { id: 48 , value: 247 },
+        { id: 32 , value: 190 },
+        { id: 45 , value: 294 },
+        { id: 9 , value: 161 },
+        { id: 3 , value: 197 },
+        { id: 31 , value: 229 },
+        { id: 33 , value: 214 },
+        { id: 7 , value: 329 },
+        { id: 46 , value: 208 },
+        { id: 1 , value: 256 },
+        { id: 67 , value: 132 },
+        { id: 14 , value: 377 },
+        { id: 61 , value: 181 },
+        { id: 55 , value: 159 },
+        { id: 6 , value: 120 },
+        { id: 42 , value: 322 },
+        { id: 19 , value: 296 },
+        { id: 58 , value: 205 },
+        { id: 68 , value: 252 },
+        { id: 26 , value: 280 },
+        { id: 38 , value: 122 },
+        { id: 60 , value: 390 },
+        { id: 63 , value: 164 },
+        { id: 23 , value: 134 },
+        { id: 24 , value: 208 },
+        { id: 47 , value: 263 },
+        { id: 27 , value: 255 },
+        { id: 24 , value: 76 },
+        { id: 44 , value: 162 },
+        { id: 65 , value: 250 },
+        { id: 21 , value: 136 },
+        { id: 36 , value: 155 },
+    ];
+
+    ppmData.forEach(function(row) {
+        if(row.id == cityOrRegion) {
+            score = row.value;
+            return score;
+        }
+    });
+
+    return score;
+}
+
+var getQuestionAnswer = function(questionId) {
+    var answer = '';
+    for(var i = 0 ; i < questions_answers.length; i++){
+        var element = questions_answers[i];
+        if (element.id == questionId) { 
+            answer = element; 
+            break;
+        }    
+    }
+    return answer;
+}
+
+var getResultPageContent = function(score) {
+    var realAge = parseInt(getQuestionAnswer("q2").value);
+    var metabolicAge = getMetabolicAge(parseInt(realAge), score, limit);
+    return { realAge: realAge, metabolicAge: metabolicAge };
+};
+
+var getMetabolicAge = function(realAge, score, limit) {
+    var metabolicAge;
+    if( score < limit.YOUNG ) { metabolicAge = realAge; }
+    else if( score < limit.MIDDLE ) { metabolicAge = Math.ceil(realAge + (realAge * 0.25)); }
+    else if( score >= limit.OLD ) { metabolicAge = Math.ceil(realAge + (realAge * 0.50)); }
+    return metabolicAge;
+};
 
 
