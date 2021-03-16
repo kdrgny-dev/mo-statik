@@ -24,6 +24,7 @@
                 j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
                     'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
         })(window, document, 'script', 'dataLayer', 'GTM-PXTRPQ3');
+        window.dataLayer = window.dataLayer || [];
     </script>
     <!-- End Google Tag Manager -->
 </head>
@@ -83,7 +84,7 @@
                                 </h2>
                                 <p class="welcome-modal-text"><a href="javascript:;" class="js-welcome-modal" data-bs-toggle="modal" data-bs-target="#aydinlatmaMetni">Aydınlatma Metni</a>’ni okudum.</p>
 
-                                <a href="javascript:;" class="js-goto-next-question btn btn-lg welcome-btn-goon">TESTE BAŞLAYIN</a>
+                                <a href="javascript:;" id="start-test-btn" class="btn btn-lg welcome-btn-goon">TESTE BAŞLAYIN</a>
                             </div>
                             <img src="assets/images/welcome-img.png" alt="Calgon | makineminomru" class="welcome-img animate__animated animate__fadeInRight">
                         </div>

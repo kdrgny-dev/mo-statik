@@ -7,6 +7,7 @@ var nextQuestionBtn = document.getElementsByClassName('js-goto-next-question'),
     copyDiscountCodeBtn = document.querySelector('.js-result-discount'),
     copyDiscountCodeText = document.querySelector('.js-result-discount-code'),
     termOfUseBtn = document.querySelector('.js-result-term-of-use-btn'),
+    startTestBtn = document.getElementById('start-test-btn'),
     modal,
     questions_answers= [],
     limit = { YOUNG: 8, MIDDLE: 13, OLD: 14  },
@@ -14,9 +15,10 @@ var nextQuestionBtn = document.getElementsByClassName('js-goto-next-question'),
     headlines = { YOUNG: 'BRAVOOO', MIDDLE: 'TAM ZAMANINDA YETİŞTİK', OLD: "YANİ NASIL SÖYLESEM BİLEMİYORUM" };
 
 window.addEventListener('DOMContentLoaded', (event) => {
-    console.log('DOMContentLoaded');
+    pageView();
     setVisible('#fullpage', false);
     setVisible('.loading', false);
+    
 });
 
 window.onload = function () {
@@ -92,7 +94,26 @@ window.onload = function () {
     //disabling scrolling
     fullpage_api.setAllowScrolling(false);
 
+    //start test btn click
+    startTestBtn.addEventListener('click', function (e) {
+        e.preventDefault();
+        checkAddBlocker(function (result) {
+            if (result) {
+                console.log('Welcome Screen, addblocker açık');
+                nextQuestion();
+            } else {
+                window.dataLayer.push({
+                    'event': 'Welcome Screen',
+                    'eventCallback': function () {
+                        console.log('Welcome Screen, addblocker kapalı');
+                        nextQuestion();
+                    },
+                    'eventTimeout': 1500
+                })
+            }
+        })
 
+    })
     //nextQuestions
     Array.from(nextQuestionBtn).forEach(function (nextQuestionBtn) {
         nextQuestionBtn.addEventListener('click', function(){
@@ -135,8 +156,10 @@ window.onload = function () {
                     machineAgeTxt.innerText = result_obj.realAge
                 break;
             }
+            sendQuestionDataToGTM(question, the_answer, function () {
+                nextQuestion();
+            })
             
-            nextQuestion();
         });
     });
     //select city then nextQuestion
@@ -145,7 +168,9 @@ window.onload = function () {
             id:"q1",
             value:this.value
         });
-        nextQuestion();
+        sendQuestionDataToGTM('1', this.value, function () {
+            nextQuestion();
+        })
     } );
     
     //select machineAge then nextQuestion
@@ -154,7 +179,9 @@ window.onload = function () {
             id:"q2",
             value:this.value
         });
-        nextQuestion();
+        sendQuestionDataToGTM('2', this.value, function () {
+            nextQuestion();
+        })
     } );
     
     //select howOften then nextQuestion
@@ -163,7 +190,9 @@ window.onload = function () {
             id:"q3",
             value:this.value
         });
-        nextQuestion();
+        sendQuestionDataToGTM('3', this.value, function () {
+            nextQuestion();
+        })
     });
 
     
@@ -436,5 +465,47 @@ var getMetabolicAge = function(realAge, score, limit) {
     else if( score >= limit.OLD ) { metabolicAge = Math.ceil(realAge + (realAge * 0.50)); }
     return metabolicAge;
 };
+
+//check addBlocker function -callback
+function checkAddBlocker(cb) {
+    var testAd = document.createElement('div');
+    testAd.innerHTML = '&nbsp;';
+    testAd.className = 'adsbox';
+    document.body.appendChild(testAd);
+    window.setTimeout(function () {
+        cb && cb(testAd.offsetHeight === 0)
+        testAd.remove();
+    }, 100);
+}
+
+//pageview
+function pageView() {
+    window.dataLayer.push({
+        event: 'virtualPageView',  //fixed value you need to use as trigger in GTM
+        virtualPagePath: document.location.href,
+        virtualPageTitle: document.title
+    });
+}
+
+//sendQuestion data to GTM
+function sendQuestionDataToGTM(question, answer, cb) {
+    checkAddBlocker(function (result) {
+        if (result) {
+            console.log('addblocker açık', 'question : ' + question, 'answer : ' + answer);
+            cb && cb();
+        } else {
+            window.dataLayer.push({
+                'event': 'User_Answer',
+                'question': question,
+                'answer': answer,
+                'eventCallback': function () {
+                    console.log('addblocker kapalı', 'question : ' + question, 'answer : ' + answer);
+                    cb && cb();
+                },
+                'eventTimeout': 1500
+            })
+        }
+    })
+}
 
 
