@@ -1,0 +1,13 @@
+{
+    "name": "calgon/makinemin-omru-net",
+    "description": "makineminomru.net",
+    "require": {
+        "phpmailer/phpmailer": "~6.1"
+    },
+    "authors": [
+        {
+            "name": "ibo",
+            "email": "ibrahim.hizlioglu@gmail.com"
+        }
+    ]
+}

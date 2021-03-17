@@ -8,6 +8,15 @@ var nextQuestionBtn = document.getElementsByClassName('js-goto-next-question'),
     copyDiscountCodeText = document.querySelector('.js-result-discount-code'),
     termOfUseBtn = document.querySelector('.js-result-term-of-use-btn'),
     startTestBtn = document.getElementById('start-test-btn'),
+    resultTitle = document.getElementById('result-title'),
+    techForm = document.getElementById('form'),
+    fullname = document.getElementById('fullname'),
+    phone = document.getElementById('phone'),
+    email = document.getElementById('email'),
+    city = document.getElementById('city'),
+    district = document.getElementById('district'),
+    submitFormBtn = document.getElementById('submitForm'),
+    getDiscountBtn = document.querySelector('.js-get-service-discount-btn'),
     modal,
     questions_answers= [],
     limit = { YOUNG: 8, MIDDLE: 13, OLD: 14  },
@@ -20,7 +29,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
     setVisible('.loading', false);
     
 });
-
+window.onresize = function () {
+    document.body.height = window.innerHeight;
+}
 window.onload = function () {
     console.log('onload');
     // fullpage.js init
@@ -30,6 +41,7 @@ window.onload = function () {
         normalScrollElements: '.modal-body',
         keyboardScrolling: false,
         scrollOverflow: true,
+        autoScrolling: true,
         licenseKey: 'EDC04CA5-2F844012-B43EC46E-3FD15BCB',
         
         onLeave: function (origin) {
@@ -93,6 +105,7 @@ window.onload = function () {
     });
     //disabling scrolling
     fullpage_api.setAllowScrolling(false);
+    //fullpage_api.moveTo(9);
 
     //start test btn click
     startTestBtn.addEventListener('click', function (e) {
@@ -101,11 +114,13 @@ window.onload = function () {
         checkAddBlocker(function (result) {
             if (result) {
                 console.log('Welcome Screen, addblocker açık');
+                window.history.pushState({}, "", '?soru=1');
                 nextQuestion();
             } else {
                 window.dataLayer.push({
-                    'event': 'Welcome Screen',
+                    'event': 'WelcomeScreen',
                     'eventCallback': function () {
+                        window.history.pushState({}, "", '?soru=1');
                         console.log('Welcome Screen, addblocker kapalı');
                         nextQuestion();
                     },
@@ -155,6 +170,51 @@ window.onload = function () {
                     var result_obj = getResultPageContent(score);
                     machineRealAgeTxt.innerText = result_obj.metabolicAge; 
                     machineAgeTxt.innerText = result_obj.realAge
+                    var title = '';
+                    if (result_obj.realAge <= 2) {
+                        if (score < limit.YOUNG) {
+                            title = headlines.YOUNG;
+                        } else if (score < limit.MIDDLE) {
+                            title = headlines.MIDDLE;
+                        } else if (score >= limit.OLD) {
+                            title = headlines.OLD;
+                        }
+                    } else if (result_obj.realAge <= 5) {
+                        if (score < limit.YOUNG) {
+                            title = headlines.YOUNG;
+                        } else if (score < limit.MIDDLE) {
+                            title = headlines.MIDDLE;
+                        } else if (score >= limit.OLD) {
+                            title = headlines.OLD;
+                        }
+                    } else if (result_obj.realAge <= 7) {
+                        if (score < limit.YOUNG) {
+                            title = headlines.YOUNG;
+                        } else if (score < limit.MIDDLE) {
+                            title = headlines.MIDDLE;
+                        } else if (score >= limit.OLD) {
+                            title = headlines.OLD;
+                        }
+                    } else if (result_obj.realAge <= 9) {
+                        if (score < limit.YOUNG) {
+                            title = headlines.YOUNG;
+                        } else if (score < limit.MIDDLE) {
+                            title = headlines.MIDDLE;
+                        } else if (score >= limit.OLD) {
+                            title = headlines.OLD;
+                        }
+                    } else {
+                        if (score < limit.YOUNG) {
+                            title = headlines.YOUNG;
+                        } else if (score < limit.MIDDLE) {
+                            title = headlines.MIDDLE;
+                        } else if (score >= limit.OLD) {
+                            title = headlines.OLD;
+                        }
+                    }
+                    resultTitle.innerText = title;
+
+                    
                 break;
             }
             sendQuestionDataToGTM(question, the_answer, function () {
@@ -196,10 +256,6 @@ window.onload = function () {
         })
     });
 
-    
-
-
-
     //copy discount code
     copyDiscountCodeBtn.onclick = function () {
         document.execCommand("copy");
@@ -207,17 +263,116 @@ window.onload = function () {
         copiedModal();
     }
 
+    //getDiscountBtn click
+    getDiscountBtn.addEventListener('click', function () {
+        fullpage_api.moveTo(11);
+    })
+
+     function sendPost(cb){
+
+        fetch('service/save.php', {
+            method: 'POST',
+            body: JSON.stringify(Object.fromEntries(new FormData(techForm))),
+            headers: {
+                'Content-type': 'application/json; charset=UTF-8'
+            }
+        }).then(function (response) {
+            if (response.ok) {
+                return response.json();
+            }
+            return Promise.reject(response);
+        }).then(function (data) {
+            cb && cb(true)
+            console.log(data);
+        }).catch(function (error) {
+            cb && cb(false)
+            console.warn(error);
+        });
+    }
+
+    submitFormBtn.addEventListener('click', function (e) {
+        e.preventDefault();
+        var errorMessages = "";
+        if (fullname.value == '') {
+            errorMessages += 'Ad Soyad boş bırakılmamalıdır <br>'
+        }
+        if (email.value == '') {
+            errorMessages += 'E-Posta boş bırakılmamalıdır <br>'
+        } else if (!validateEmail(email.value)) {
+            errorMessages += "Lütfen doğru formatta e-posta adresi giriniz."
+        }
+        if (phone.value == '') {
+            errorMessages += 'Telefon boş bırakılmamalıdır <br>'
+        }
+        if (city.value == '') {
+            errorMessages += 'Şehir boş bırakılmamalıdır <br>'
+        }
+        if (district.value == '') {
+            errorMessages += 'İlçe boş bırakılmamalıdır <br>'
+        }
+        if (errorMessages == '') {
+            sendPost(function (postResult) {
+                if (postResult) {
+                    checkAddBlocker(function (result) {
+                        if (result) {
+                            console.log('Form Gönderildi, addblocker açık');
+                        } else {
+                            window.dataLayer.push({
+                                'event': 'SubmitForm',
+                                'eventCallback': function () {
+                                    console.log('Form Gönderildi, addblocker kapalı');
+                                },
+                                'eventTimeout': 1500
+                            })
+                        }
+                    })
+                    Swal.fire({
+                        title: 'TEŞEKKÜRLER!',
+                        text: 'Servis talebiniz başarıyla kaydedildi. Randevu zamanını belirlemek için ekibimiz en kısa sürede sizinle iletişime geçecek.',
+                        icon: 'success',
+                        confirmButtonText: 'Kapat',
+                        willClose: function () {
+                            // document.location.href = document.location.origin
+                        }
+                    })
+                } else {
+                    Swal.fire({
+                        text: 'Hay aksi işleminiz yapılırken teknik bir sorun oluştu! Lütfen daha sonra yeniden deneyin.',
+                        icon: 'error',
+                        confirmButtonText: 'Kapat'
+                    })
+                }
+            })
+            
+            
+        } else {
+            Swal.fire({
+                html: errorMessages,
+                icon: 'error',
+                confirmButtonText: 'Kapat'
+            })
+        }
+    })
+
     hideModal();
     setVisible('#fullpage', true);
     setVisible('.loading', false);
 }
-
+// check regex
+function validateEmail(email) {
+    const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
+}
 //nextQuestion Fnc.
 function nextQuestion() {
     fullpage_api.moveSectionDown();
 }
 
-//add dynamic copiedModal
+//getDiscountFormShow
+function getDiscountFormShow() {
+    
+}
+//add dynamic copiedModal Fnc.
 function copiedModal(id) {
     var el = document.getElementById(id);
     var body = document.querySelector('body');
@@ -242,11 +397,11 @@ function copiedModal(id) {
     modal.show();
 }
 
-//remove copiedModal
+//remove copiedModal Fnc.
 function hideModal() {
     modal && modal.hide();
 }
-
+//copyToClipboard Fnc.
 function copyToClipboard(str) {
     var el = document.createElement('textarea');
     el.value = str;
@@ -258,11 +413,11 @@ function copyToClipboard(str) {
     document.execCommand('copy');
     document.body.removeChild(el);
 }
-
+//setVisible for loading Fnc.
 function setVisible(selector, visible) {
     document.querySelector(selector).style.display = visible ? 'block' : 'none';
 }
-
+//Calculator Fnc.
 function Calculator(answers) {
     this.answers = answers;
     this.score = 0;
@@ -440,7 +595,7 @@ Calculator.prototype.calculatePpm = function(cityOrRegion) {
 
     return score;
 }
-
+//getQuestionAnswer Fnc.
 var getQuestionAnswer = function(questionId) {
     var answer = '';
     for(var i = 0 ; i < questions_answers.length; i++){
@@ -452,13 +607,13 @@ var getQuestionAnswer = function(questionId) {
     }
     return answer;
 }
-
+//getResultPageContent Fnc.
 var getResultPageContent = function(score) {
     var realAge = parseInt(getQuestionAnswer("q2").value);
     var metabolicAge = getMetabolicAge(parseInt(realAge), score, limit);
     return { realAge: realAge, metabolicAge: metabolicAge };
 };
-
+//getMetabolicAge Fnc.
 var getMetabolicAge = function(realAge, score, limit) {
     var metabolicAge;
     if( score < limit.YOUNG ) { metabolicAge = realAge; }
@@ -467,7 +622,7 @@ var getMetabolicAge = function(realAge, score, limit) {
     return metabolicAge;
 };
 
-//check addBlocker function -callback
+//checkAddBlocker Fnc.
 function checkAddBlocker(cb) {
     var testAd = document.createElement('div');
     testAd.innerHTML = '&nbsp;';
@@ -479,7 +634,7 @@ function checkAddBlocker(cb) {
     }, 100);
 }
 
-//pageview
+//pageView Fnc.
 function pageView() {
     window.dataLayer.push({
         event: 'virtualPageView',  //fixed value you need to use as trigger in GTM
@@ -488,17 +643,21 @@ function pageView() {
     });
 }
 
-//sendQuestion data to GTM
+//sendQuestionDataToGTM Fnc.
 function sendQuestionDataToGTM(question, answer, cb) {
     
-    window.history.pushState({},"", '?question='+(parseInt(question)+1));
+    if (parseInt(question) == 8) {
+        window.history.pushState({}, "", '?sonuc');
+    } else {
+        window.history.pushState({}, "", '?soru=' + (parseInt(question) + 1));
+    }
     checkAddBlocker(function (result) {
         if (result) {
             console.log('addblocker açık', 'question : ' + question, 'answer : ' + answer);
             cb && cb();
         } else {
             window.dataLayer.push({
-                'event': 'User_Answer',
+                'event': 'UserAnswer',
                 'question': question,
                 'answer': answer,
                 'eventCallback': function () {
@@ -510,5 +669,8 @@ function sendQuestionDataToGTM(question, answer, cb) {
         }
     })
 }
+
+
+
 
 

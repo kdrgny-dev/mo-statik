@@ -10,6 +10,7 @@ module.exports = {
       "node_modules/fullpage.js/vendors/scrolloverflow.min.js",
       "node_modules/fullpage.js/dist/fullpage.min.js",
       "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js",
+      "node_modules/sweetalert2/dist/sweetalert2.all.js",
       "assets/js/**/*.js",
       
   ],

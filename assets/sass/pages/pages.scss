@@ -132,6 +132,9 @@
         @include media-below(lg) {
             order:2;
         }
+        @include media-below(sm) {
+            padding:15px 0;
+        }
         &-order {
             width: 56px;
             height: 56px;
@@ -249,11 +252,30 @@
     }
 
     &-row {
-        @include media-below(sm) {
-
+        @include media-above(lg) {
+            height: 100vh;
+            align-items: flex-end;
         }
     }
     
+}
+//for iphone 6s res. update
+@media
+  only screen and (-webkit-min-device-pixel-ratio: 2),
+  only screen and (   min--moz-device-pixel-ratio: 2),
+  only screen and (     -o-min-device-pixel-ratio: 2/1),
+  only screen and (        min-device-pixel-ratio: 2),
+  only screen and (                min-resolution: 326dpi),
+  only screen and (                min-resolution: 2dppx) { 
+    /* Retina styles here */
+    .q1 {
+        height: 100vh!important;
+    }
+    .result {
+        &-inner {
+            margin-bottom: 50px;
+        }
+    }
 }
 
 //RESULT
@@ -419,8 +441,245 @@
     }
 }
 
-//aydinlatmaMetni Modal
-#aydinlatmaMetni, #termOfUse {
+//FORM
+.form {
+    background: #0a90ca;
+    #FormPage {
+        padding-top:100px;
+        .container {
+            display: block;
+            max-width: 440px;
+            margin: 0 auto 40px auto;
+            text-align: center;
+            color: #FFF;
+        }
+
+        .text-wrapper {
+            h1 {
+            font-size: 36px;
+            margin: 0px 0 10px 0;
+            }
+
+            p {
+            font-size: 24px;
+            margin: 0;
+            line-height: 1.4em;
+            }
+        }
+
+        .form-wrapper {
+            margin: 30px auto;
+            font-size: 22px;
+
+            .input-wrapper {
+            .label {
+                display: block;
+                margin: 10px 0;
+            }
+
+            input {
+                padding: 10px;
+                width: 100%;
+                max-width: 280px;
+                border: 0;
+                border-radius: 30px;
+                font-size: 16px;
+                color: #333;
+                line-height: 1em;
+                -webkit-user-select: text;
+
+                /* Chrome, Opera, Safari */
+                -moz-user-select: text;
+
+                /* Firefox 2+ */
+                -ms-user-select: text;
+
+                /* IE 10+ */
+                user-select: text;
+
+                /* Standard syntax */
+            }
+            }
+
+            .terms-wrapper {
+            margin: 10px auto;
+
+            a {
+                color: #FFF;
+            }
+
+            .checkbox-container {
+                display: inline-block;
+                text-align: left;
+                width: 100%;
+            }
+
+            .info {
+                font-size: 13px;
+                &.last {
+                    margin-top: 20px;
+                    display: inline-block;
+                }
+                a {
+                    color:$darkBlue;
+                    text-decoration: underline;
+                }
+            }
+
+            .checkmark {
+                top: 17px;
+            }
+            }
+        }
+
+        .button-wrapper {
+            font-size: 24px;
+
+            a {
+            color: #FFF;
+            display: table;
+            padding: 10px 20px;
+            background: #1DB2F1;
+            border-radius: 30px;
+            cursor: pointer;
+            margin: 0 auto;
+            text-decoration: none;
+
+            &:hover {
+                background: linear-gradient(90deg, #02a1f9 0%, #29f19c 100%);
+            }
+            }
+        }
+    }
+
+    .checkbox-container {
+        display: block;
+        position: relative;
+        padding-left: 35px;
+        margin-bottom: 12px;
+        cursor: pointer;
+        font-size: 22px;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+
+        input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0;
+            width: 0;
+        }
+    }
+    .checkmark {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 25px;
+        width: 25px;
+        background-color: #eee;
+        border-radius: 40px;
+    }
+    .checkbox-container {
+    &:hover input ~ .checkmark {
+        background-color: #ccc;
+    }
+
+    input:checked ~ .checkmark {
+        background-color: #009dee;
+        }
+    }
+    .checkmark:after {
+        content: "";
+        position: absolute;
+        display: none;
+    }
+    .checkbox-container {
+    input:checked ~ .checkmark:after {
+        display: block;
+    }
+
+    .checkmark:after {
+            left: 9px;
+            top: 5px;
+            width: 5px;
+            height: 10px;
+            border: solid white;
+            border-width: 0 3px 3px 0;
+            -webkit-transform: rotate(45deg);
+            -ms-transform: rotate(45deg);
+            transform: rotate(45deg);
+        }
+    }
+
+    #FormResultPage {
+        display: none;
+        &.active {
+            display: block;
+        }
+    }
+
+    #ResultPage .bg-cover {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    z-index: -1;
+    transform: translateX(-50%);
+    width: 100%;
+    text-align: center;
+
+    img {
+        width: 30%;
+    }
+    }
+
+    #FormResultPage {
+    .container {
+        display: block;
+        max-width: 440px;
+        margin: 0 auto;
+        text-align: center;
+        color: #FFF;
+    }
+
+    .text-wrapper {
+        h1 {
+        font-size: 36px;
+        margin: 0px 0 10px 0;
+        }
+
+        p {
+        font-size: 24px;
+        margin: 0;
+        line-height: 1.4em;
+        }
+    }
+
+    .button-wrapper {
+        margin: 30px 0;
+        font-size: 24px;
+
+        a {
+        color: #FFF;
+        display: table;
+        padding: 10px 20px;
+        background: #1DB2F1;
+        margin: 15px auto;
+        border-radius: 30px;
+        cursor: pointer;
+        text-decoration: none;
+
+        &:hover {
+            background: linear-gradient(90deg, #02a1f9 0%, #29f19c 100%);
+        }
+        }
+    }
+    }
+}
+
+//common Modal
+.common-modal {
     h5 {
         font-size: 26px;
         font-weight: 700;
@@ -474,3 +733,5 @@
         }
     }
 }
+
+
