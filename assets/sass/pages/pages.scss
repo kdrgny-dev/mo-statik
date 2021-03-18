@@ -32,7 +32,7 @@
         }
     }
     &-info {
-        padding: 5px;
+        padding: 10px;
         background-color: #FF4E00;
         font-family: $barlowC;
         font-size: 25px;
@@ -48,7 +48,7 @@
         margin-top: 50px;
         font-size: 22px;
         font-family: $barlowC;
-        font-weight: 600;
+        font-weight: 500;
         @include media-below(sm) {
             font-size: 16px;
             margin-top: 15px;
