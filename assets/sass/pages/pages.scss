@@ -103,10 +103,10 @@
     &-inner {
         display: flex;
         align-items: center;
+        position: relative;
         @include media-below(lg) {
             flex-direction: column;
             align-items: center;
-            padding-top: 100px;
         }
         img {
             @include media-below(lg) {
@@ -270,6 +270,9 @@
     /* Retina styles here */
     .q1 {
         height: 100vh!important;
+        .q-inner {
+            padding-top: 100px;
+        }
     }
     .result {
         &-inner {
@@ -277,6 +280,24 @@
         }
     }
 }
+
+//for iphone x res. update
+@media only screen 
+    and (device-width : 375px) 
+    and (device-height : 812px) 
+    and (-webkit-device-pixel-ratio : 3) { 
+        .q1 {
+            height: 100vh!important;
+            .q-inner {
+                padding-top: 150px;
+            }
+        }
+        .result {
+        &-inner {
+            margin-bottom: 50px;
+        }
+    }
+    }
 
 //RESULT
 .result {
@@ -730,6 +751,41 @@
         @include media-below(sm) {
             display: inline-block;
             margin-top: 10px;
+        }
+    }
+}
+
+.q-1-extra-div {
+    position: relative;
+}
+.colors {
+    position: absolute;
+    top:110px;
+    z-index: 100;
+    left:100px;
+    @include media-below(sm) {
+        top:50px;
+        left:60px;
+    }
+    &-item {
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        font-weight: 700;
+        color:$white;
+        &-color {
+            width:20px;
+            height:20px;
+            margin-right: 10px;
+            &--orange {
+            background-color:#EE8526;
+            }
+            &--red {
+                background-color:#EC2122;
+            }
+            &--dark-red {
+                background-color:#9B1B21;
+            }
         }
     }
 }
